@@ -49,6 +49,6 @@ float64 altitude
   logNavSatStatus(data.status)
 
 if __name__=='__main__':
-  rospy.init_node('ublox_plot')
+  rospy.init_node('ublox_logger')
   rospy.Subscriber('ublox_gps_rover/fix', NavSatFix, logNavSatFix)
   rospy.spin()
