@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <node pkg="ublox_logger" type="logger.py" name="logger" output="screen" />
+</launch>
