@@ -4,6 +4,7 @@ import rospy
 import time
 
 from sensor_msgs.msg import NavSatFix
+from sensor_msgs.msg import NavSatStatus
 
 def logNavSatStatus(status):
 """
