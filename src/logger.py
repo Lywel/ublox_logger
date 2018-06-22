@@ -1,12 +1,15 @@
 #!/usr/bin/env python2
 
+log = None
+
 import rospy
 import time
+import json
 
 from sensor_msgs.msg import NavSatFix
 from sensor_msgs.msg import NavSatStatus
 
-def logNavSatStatus(status):
+def logNavSatFix(data):
     """
     Doc extract: sensor_msgs/NavSatStatus
 
@@ -22,11 +25,7 @@ def logNavSatStatus(status):
     int8 STATUS_GBAS_FIX = 2        # with ground-based augmentation
 
     int8 status
-    """
-    rospy.loginfo("[STATUS] %s", time.time(), status.status)
 
-def logNavSatFix(data):
-    """
     Doc extract: sensor_msgs/NavSatFix
 
     # satellite fix status information
@@ -43,12 +42,21 @@ def logNavSatFix(data):
     float64 altitude
 
     """
-    rospy.loginfo("[FIX] %f %f %f %f", time.time(),
-    data.latitude, data.longitude, data.altitude)
+    global log
 
-    logNavSatStatus(data.status)
+    s = " ".join([
+        str(time.time()),
+        str(data.latitude),
+        str(data.longitude),
+        str(data.status.status)
+    ])
+
+
+    log.write(s + "\n")
+    log.flush()
 
 if __name__=='__main__':
+    log = open('ros.log', 'w')
     rospy.init_node('ublox_logger')
     rospy.Subscriber('ublox_gps_rover/fix', NavSatFix, logNavSatFix)
     rospy.spin()
